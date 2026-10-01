@@ -1131,7 +1131,7 @@
 
         .jee {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 22px;
             margin-top: 30px
         }
@@ -1139,46 +1139,29 @@
         .jee-card {
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(243,247,255,.96));
-            border: 1px solid rgba(86, 118, 255, .18);
-            border-radius: 26px;
-            padding: 20px 18px 18px;
+            background: rgba(255, 255, 255, .02);
+            border: 1px solid rgba(13, 26, 61, .08);
+            border-radius: 22px;
             min-height: 172px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 20px 48px rgba(9, 25, 61, .08);
-            transition: transform .6s cubic-bezier(.2, .8, .2, 1), box-shadow .6s ease, border-color .4s ease, opacity .8s ease;
-            transition-delay: calc(var(--n, 0) * 80ms);
+            box-shadow: none;
+            transition: transform .45s ease, border-color .35s ease, opacity .8s ease;
+            transition-delay: calc(var(--n, 0) * 60ms);
             isolation: isolate;
             will-change: transform, box-shadow;
         }
 
-        .jee-card::before {
-            content: "";
-            position: absolute;
-            inset: 18px auto auto 18px;
-            width: 68px;
-            height: 68px;
-            border-radius: 18px;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.8), rgba(91,127,255,.2) 40%, transparent 70%);
-            z-index: -1;
-        }
-
+        .jee-card::before,
         .jee-card::after {
-            content: "";
-            position: absolute;
-            inset: auto 18px 16px 18px;
-            height: 3px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, var(--blue), var(--gold), rgba(255,255,255,0));
-            opacity: .9;
+            content: none;
         }
 
         .jee-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 24px 52px rgba(9, 25, 61, .12);
-            border-color: rgba(72, 118, 255, .35);
+            transform: translateY(-3px);
+            border-color: rgba(72, 118, 255, .18);
+            box-shadow: 0 0 0 1px rgba(72, 118, 255, .06);
         }
 
         .jee-tag {
@@ -2372,6 +2355,68 @@
             box-shadow: 0 18px 40px rgba(13, 26, 61, .08);
             transition: transform .6s cubic-bezier(.2, .8, .2, 1), box-shadow .6s ease, border-color .4s ease, opacity .8s ease;
             will-change: transform, box-shadow;
+        }
+
+        .ins-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ins-head img {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: rgba(255,255,255,.8);
+            padding: 6px;
+            border: 1px solid rgba(13,26,61,.05);
+        }
+
+        .ins-brand {
+            font-size: .7rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--goldT);
+        }
+
+        .typewriter-box {
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(13,26,61,.08);
+            background: rgba(11, 29, 70, .03);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-top: 2px;
+        }
+
+        .typewriter-text {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: .82rem;
+            letter-spacing: .04em;
+            color: var(--ink);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .typewriter-text::after {
+            content: "";
+            display: inline-block;
+            width: 1px;
+            height: 1.05em;
+            margin-left: 4px;
+            vertical-align: middle;
+            background: currentColor;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         .ins::before {
@@ -4102,7 +4147,10 @@
             .jee-card {
                 min-height: 146px;
                 padding: 18px 16px 14px;
-                border-radius: 22px;
+                border-radius: 20px;
+                background: rgba(255, 255, 255, .02);
+                border-color: rgba(13, 26, 61, .08);
+                box-shadow: none;
             }
 
             .jee-rank {
@@ -4221,8 +4269,8 @@
 
             /* photo */
             .fc .ph {
-                width: 180px;
-                height: 180px;
+                width: min(64vw, 210px);
+                height: min(64vw, 210px);
                 aspect-ratio: auto;
                 border-radius: 50%;
                 border: 4px solid rgba(17, 94, 79, .95);
@@ -4250,8 +4298,8 @@
             .fc .ph img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
-                object-position: center top;
+                object-fit: contain;
+                object-position: center center;
                 display: block;
                 transition: transform .5s cubic-bezier(.2, .8, .2, 1)
             }
@@ -5016,9 +5064,12 @@
                 <h2 class="abh" style="max-width:18ch" data-w>Who teaches what.</h2>
                 <div class="inst">
                     <article class="ins a rv">
-                        <img src="https://aakash.ac.in/img/aakash-logo.png" alt="Aakash Institute" loading="lazy"
-                            onerror="this.style.display='none'"
-                            style="height:48px;object-fit:contain;margin-bottom:10px;display:block">
+                        <div class="ins-head">
+                            <img src="https://aakash.ac.in/img/aakash-logo.png" alt="Aakash Institute" loading="lazy"
+                                onerror="this.style.display='none'">
+                            <span class="ins-brand">Aakash</span>
+                        </div>
+                        <div class="typewriter-box"><span class="typewriter-text" data-text="NEET 2028 • JEE MAIN & ADVANCED • AIATS"></span></div>
                         <h3>Aakash Institute</h3>
                         <p>Coaching for medical and engineering entrance exams, delivered in Vijayapura through the
                             partnership.</p>
@@ -5029,9 +5080,12 @@
                         </ul>
                     </article>
                     <article class="ins b rv">
-                        <img src="https://preranavijayapura.com/wp-content/uploads/2026/04/small-prerana-logo-127x127.png"
-                            alt="Prerana PU College" loading="lazy" onerror="this.style.display='none'"
-                            style="height:48px;object-fit:contain;margin-bottom:10px;display:block">
+                        <div class="ins-head">
+                            <img src="https://preranavijayapura.com/wp-content/uploads/2026/04/small-prerana-logo-127x127.png"
+                                alt="Prerana PU College" loading="lazy" onerror="this.style.display='none'">
+                            <span class="ins-brand">Prerana</span>
+                        </div>
+                        <div class="typewriter-box"><span class="typewriter-text" data-text="PUC SCIENCE • PUC COMMERCE • BOARD + COMPETITIVE"></span></div>
                         <h3>Prerana PU College</h3>
                         <p>Pre-university education for Class 11 and 12, with Science and Commerce streams.</p>
                         <ul>
@@ -5657,6 +5711,21 @@
             } else {
                 $$('.fc', $('#fs')).forEach(c => c.classList.add('fc-vis'));
             }
+            const typewriter = node => {
+                const text = node.dataset.text || node.textContent.trim();
+                node.textContent = "";
+                let start = 0;
+                let last = 0;
+                const tick = time => {
+                    if (!start) start = time;
+                    const elapsed = time - start;
+                    const pos = Math.min(text.length, Math.max(0, Math.floor((elapsed - 180) / 28)));
+                    node.textContent = text.slice(0, pos);
+                    if (pos < text.length) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            };
+            $$('.typewriter-text').forEach(typewriter);
             {
                 const rows = $$("#fl .row"), panes = $$("#ds .dp"), hl = $("#hl"), tcw = $("#tcw"); let cur = 0, zi = 1, ht;
                 const moveHl = () => { const r = rows[cur]; hl.style.height = r.offsetHeight + "px"; hl.style.transform = `translateY(${r.offsetTop}px)` };
