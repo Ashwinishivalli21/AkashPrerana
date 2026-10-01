@@ -3044,8 +3044,7 @@
         /* mobile technology carousel and swipe hints: hidden on desktop */
         .tm,
         .swipe-hint,
-        #rn-dots,
-        #fc-dots {
+        #rn-dots {
             display: none
         }
 
@@ -3593,13 +3592,29 @@
             }
 
             @keyframes shHand {
-                0%, 100% { transform: translateX(0); }
-                50% { transform: translateX(6px); }
+
+                0%,
+                100% {
+                    transform: translateX(0);
+                }
+
+                50% {
+                    transform: translateX(6px);
+                }
             }
 
             @keyframes shArr {
-                0%, 100% { opacity: .4; transform: translateX(0); }
-                50% { opacity: 1; transform: translateX(4px); }
+
+                0%,
+                100% {
+                    opacity: .4;
+                    transform: translateX(0);
+                }
+
+                50% {
+                    opacity: 1;
+                    transform: translateX(4px);
+                }
             }
 
             /* ---------- results: AIR Toppers horizontal carousel ---------- */
@@ -3876,56 +3891,68 @@
                 top: 10px
             }
 
-            /* ---------- faculty: animated horizontal card carousel ---------- */
+            /* ---------- faculty: stacked single-column cards with scroll animations ---------- */
             #faculty .stage {
                 padding: 72px 0 54px
             }
 
             .fs {
                 display: flex;
-                gap: 14px;
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                overscroll-behavior-x: contain;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-                margin: 20px -20px 0;
-                padding: 10px 20px 22px;
-                scroll-padding: 0 20px;
-                cursor: grab;
+                flex-direction: column;
+                gap: 18px;
+                margin: 24px 0 0;
+                padding: 0;
             }
 
-            .fs::-webkit-scrollbar {
-                display: none
-            }
-
+            /* scroll-reveal: cards start hidden, JS adds .fc-vis when in view */
             .fc {
-                flex: 0 0 76%;
-                max-width: 275px;
-                scroll-snap-align: start;
+                width: 100%;
                 background: #fff;
                 border: 1px solid var(--line);
                 border-radius: 22px;
                 padding: 16px 16px 18px;
-                box-shadow: 0 10px 30px rgba(13, 26, 61, .06);
+                box-shadow: 0 8px 28px rgba(13, 26, 61, .07);
                 display: flex;
                 flex-direction: column;
                 position: relative;
                 overflow: hidden;
-                transform: translateY(0);
-                transition: transform .35s cubic-bezier(.2, .9, .3, 1), box-shadow .35s ease, border-color .35s;
+                opacity: 0;
+                transform: translateY(36px);
+                transition:
+                    opacity .55s cubic-bezier(.2, .9, .3, 1),
+                    transform .55s cubic-bezier(.2, .9, .3, 1),
+                    box-shadow .35s ease,
+                    border-color .35s;
             }
+
+            /* visible state (added by IntersectionObserver) */
+            .fc.fc-vis {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            /* stagger each card slightly */
+            .fc:nth-child(1) { transition-delay: 0s }
+            .fc:nth-child(2) { transition-delay: .07s }
+            .fc:nth-child(3) { transition-delay: .14s }
+            .fc:nth-child(4) { transition-delay: .21s }
+            .fc:nth-child(5) { transition-delay: .28s }
+            .fc:nth-child(6) { transition-delay: .35s }
+            .fc:nth-child(7) { transition-delay: .42s }
+            .fc:nth-child(8) { transition-delay: .49s }
+            .fc:nth-child(9) { transition-delay: .56s }
 
             .fc:hover,
             .fc:active {
-                transform: translateY(-6px) scale(1.02);
-                box-shadow: 0 18px 40px rgba(47, 107, 255, .16);
-                border-color: var(--blue)
+                transform: translateY(-5px) scale(1.015);
+                box-shadow: 0 18px 40px rgba(47, 107, 255, .15);
+                border-color: var(--blue);
             }
 
+            /* photo */
             .fc .ph {
                 width: 100%;
-                aspect-ratio: 4 / 3;
+                aspect-ratio: 16 / 9;
                 border-radius: 16px;
                 margin-bottom: 12px;
                 overflow: hidden;
@@ -3943,16 +3970,17 @@
 
             .fc:hover .ph img,
             .fc:active .ph img {
-                transform: scale(1.08)
+                transform: scale(1.06)
             }
 
+            /* sheen on hover */
             .fc .ph::after {
                 content: "";
                 position: absolute;
                 inset: 0;
-                background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, .45) 50%, transparent 60%);
+                background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.4) 50%, transparent 60%);
                 transform: translateX(-120%);
-                transition: transform .8s ease;
+                transition: transform .7s ease;
                 pointer-events: none
             }
 
@@ -3999,8 +4027,17 @@
             }
 
             @keyframes pulseDot {
-                0%, 100% { transform: scale(1); opacity: 1 }
-                50% { transform: scale(1.4); opacity: .6 }
+
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 1
+                }
+
+                50% {
+                    transform: scale(1.4);
+                    opacity: .6
+                }
             }
 
             .fc h3 {
@@ -4646,7 +4683,8 @@
                     <div class="ptabs" id="ptabs" role="tablist" aria-label="Programs"></div>
                 </div>
                 <div class="swipe-hint mob-only" aria-hidden="true">
-                    <div class="sh-pill"><span class="sh-hand">👉</span><span>Swipe programs</span><span class="sh-arrow">→</span></div>
+                    <div class="sh-pill"><span class="sh-hand">👉</span><span>Swipe programs</span><span
+                            class="sh-arrow">→</span></div>
                 </div>
                 <div class="trk" id="trk"></div>
                 <div class="pbar" id="pgbar" aria-hidden="true"></div>
@@ -4685,7 +4723,8 @@
                     </div>
                     <div>
                         <div class="swipe-hint mob-only" aria-hidden="true">
-                            <div class="sh-pill"><span class="sh-hand">🏆</span><span>Swipe top rankers</span><span class="sh-arrow">→</span></div>
+                            <div class="sh-pill"><span class="sh-hand">🏆</span><span>Swipe top rankers</span><span
+                                    class="sh-arrow">→</span></div>
                         </div>
                         <div class="rn" id="rn" tabindex="0" aria-label="Top rankers, swipe or scroll to explore"></div>
                         <div class="tmd mob-only" id="rn-dots" aria-label="Ranker selection"></div>
@@ -4710,11 +4749,7 @@
                         gold medalists and seasoned educators: every teacher has passed Aakash's rigorous 5-layer
                         selection process.</p>
                 </div>
-                <div class="swipe-hint mob-only" aria-hidden="true">
-                    <div class="sh-pill"><span class="sh-hand">👨‍🏫</span><span>Swipe 9+ star educators</span><span class="sh-arrow">→</span></div>
-                </div>
-                <div class="fs" id="fs" tabindex="0" aria-label="Faculty, scroll to explore"></div>
-                <div class="tmd mob-only" id="fc-dots" aria-label="Faculty selection"></div>
+                <div class="fs" id="fs" aria-label="Faculty"></div>
                 <div class="fp" aria-hidden="true"><i></i></div>
             </div>
         </section>
@@ -4772,7 +4807,8 @@
                 </div>
                 <div class="tm" id="tm">
                     <div class="swipe-hint mob-only" aria-hidden="true">
-                        <div class="sh-pill"><span class="sh-hand">📱</span><span>Swipe learning tools</span><span class="sh-arrow">→</span></div>
+                        <div class="sh-pill"><span class="sh-hand">📱</span><span>Swipe learning tools</span><span
+                                class="sh-arrow">→</span></div>
                     </div>
                     <div class="tmt" id="tmt" tabindex="0" aria-label="Learning tools, swipe to explore"></div>
                     <div class="tmd" id="tmd"></div>
@@ -5111,7 +5147,15 @@
             };
             bindTrack($("#tmt"), $("#tmd"));
             bindTrack($("#rn"), $("#rn-dots"));
-            bindTrack($("#fs"), $("#fc-dots"));
+            // faculty: scroll-reveal each card as user scrolls
+            if (!rm) {
+                const facObs = new IntersectionObserver(entries => {
+                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('fc-vis'); facObs.unobserve(e.target); } });
+                }, { threshold: 0.12 });
+                $$('.fc', $('#fs')).forEach(c => facObs.observe(c));
+            } else {
+                $$('.fc', $('#fs')).forEach(c => c.classList.add('fc-vis'));
+            }
             {
                 const rows = $$("#fl .row"), panes = $$("#ds .dp"), hl = $("#hl"), tcw = $("#tcw"); let cur = 0, zi = 1, ht;
                 const moveHl = () => { const r = rows[cur]; hl.style.height = r.offsetHeight + "px"; hl.style.transform = `translateY(${r.offsetTop}px)` };
